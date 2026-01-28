@@ -184,7 +184,7 @@ export default function PostItemScreen() {
 
   const addQuestion = () => {
     if (questions.length >= 5) {
-      Alert.alert('Limit Reached', 'You can add up to 5 verification questions');
+      showAlert('Limit Reached', 'You can add up to 5 verification questions', 'error');
       return;
     }
     setQuestions([...questions, { question: '', answer: '' }]);
@@ -192,7 +192,7 @@ export default function PostItemScreen() {
 
   const removeQuestion = (index: number) => {
     if (questions.length <= 1) {
-      Alert.alert('Required', 'At least one verification question is required');
+      showAlert('Required', 'At least one verification question is required', 'error');
       return;
     }
     setQuestions(questions.filter((_, i) => i !== index));
