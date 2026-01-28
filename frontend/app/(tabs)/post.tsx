@@ -207,29 +207,29 @@ export default function PostItemScreen() {
   const handleSubmit = async () => {
     // Validation
     if (images.length === 0) {
-      Alert.alert('Error', 'Please upload at least one image');
+      showAlert('Error', 'Please upload at least one image', 'error');
       return;
     }
     if (!category) {
-      Alert.alert('Error', 'Please select a category');
+      showAlert('Error', 'Please select a category', 'error');
       return;
     }
     if (!city.trim() || !location.trim()) {
-      Alert.alert('Error', 'Please enter city and location');
+      showAlert('Error', 'Please enter city and location', 'error');
       return;
     }
     if (!dateFound.trim()) {
-      Alert.alert('Error', 'Please enter the date found');
+      showAlert('Error', 'Please enter the date found', 'error');
       return;
     }
     if (!description.trim()) {
-      Alert.alert('Error', 'Please enter a description');
+      showAlert('Error', 'Please enter a description', 'error');
       return;
     }
 
     const validQuestions = questions.filter(q => q.question.trim() && q.answer.trim());
     if (validQuestions.length === 0) {
-      Alert.alert('Error', 'Please add at least one verification question with answer');
+      showAlert('Error', 'Please add at least one verification question with answer', 'error');
       return;
     }
 
@@ -245,18 +245,7 @@ export default function PostItemScreen() {
         verification_questions: validQuestions,
       });
 
-      Alert.alert(
-        'Success',
-        'Your item has been posted and is pending approval.',
-        [
-          {
-            text: 'OK',
-            onPress: () => router.push('/(tabs)/my-items'),
-          },
-        ]
-      );
-
-      // Reset form
+      // Reset form first
       setImages([]);
       setCategory('');
       setCity('');
@@ -264,8 +253,18 @@ export default function PostItemScreen() {
       setDateFound('');
       setDescription('');
       setQuestions([{ question: '', answer: '' }]);
+
+      showAlert(
+        'Item Posted!',
+        'Your item has been posted successfully and is pending approval.',
+        'success',
+        () => {
+          setAlertVisible(false);
+          router.push('/(tabs)/my-items');
+        }
+      );
     } catch (error: any) {
-      Alert.alert('Error', error.message || 'Failed to post item');
+      showAlert('Error', error.message || 'Failed to post item', 'error');
     } finally {
       setLoading(false);
     }
