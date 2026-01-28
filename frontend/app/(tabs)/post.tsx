@@ -137,6 +137,20 @@ export default function PostItemScreen() {
     { question: '', answer: '' },
   ]);
   const [showCategories, setShowCategories] = useState(false);
+  
+  // Alert state
+  const [alertVisible, setAlertVisible] = useState(false);
+  const [alertConfig, setAlertConfig] = useState<{
+    title: string;
+    message: string;
+    type: 'success' | 'error' | 'info';
+    onConfirm?: () => void;
+  }>({ title: '', message: '', type: 'info' });
+
+  const showAlert = (title: string, message: string, type: 'success' | 'error' | 'info' = 'info', onConfirm?: () => void) => {
+    setAlertConfig({ title, message, type, onConfirm });
+    setAlertVisible(true);
+  };
 
   const pickImage = async () => {
     if (images.length >= 3) {
