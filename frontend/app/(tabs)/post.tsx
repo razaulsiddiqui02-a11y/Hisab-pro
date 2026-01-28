@@ -154,13 +154,13 @@ export default function PostItemScreen() {
 
   const pickImage = async () => {
     if (images.length >= 3) {
-      Alert.alert('Limit Reached', 'You can only upload up to 3 images');
+      showAlert('Limit Reached', 'You can only upload up to 3 images', 'error');
       return;
     }
 
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== 'granted') {
-      Alert.alert('Permission Denied', 'We need camera roll permission to upload images');
+      showAlert('Permission Denied', 'We need camera roll permission to upload images', 'error');
       return;
     }
 
