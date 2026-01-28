@@ -40,6 +40,90 @@ interface VerificationQuestion {
   answer: string;
 }
 
+// Custom Alert Modal Component for Web compatibility
+const CustomAlert = ({ visible, title, message, onClose, onConfirm, type = 'info' }: {
+  visible: boolean;
+  title: string;
+  message: string;
+  onClose: () => void;
+  onConfirm?: () => void;
+  type?: 'success' | 'error' | 'info';
+}) => (
+  <Modal visible={visible} transparent animationType="fade">
+    <View style={alertStyles.overlay}>
+      <View style={alertStyles.container}>
+        <View style={[alertStyles.iconWrapper, { backgroundColor: type === 'success' ? '#22c55e' : type === 'error' ? '#ef4444' : '#3b82f6' }]}>
+          <Ionicons 
+            name={type === 'success' ? 'checkmark-circle' : type === 'error' ? 'alert-circle' : 'information-circle'} 
+            size={32} 
+            color="#fff" 
+          />
+        </View>
+        <Text style={alertStyles.title}>{title}</Text>
+        <Text style={alertStyles.message}>{message}</Text>
+        <TouchableOpacity 
+          style={[alertStyles.button, { backgroundColor: type === 'success' ? '#22c55e' : type === 'error' ? '#ef4444' : '#3b82f6' }]} 
+          onPress={onConfirm || onClose}
+        >
+          <Text style={alertStyles.buttonText}>OK</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  </Modal>
+);
+
+const alertStyles = StyleSheet.create({
+  overlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.7)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
+  },
+  container: {
+    backgroundColor: '#1e293b',
+    borderRadius: 16,
+    padding: 24,
+    width: '100%',
+    maxWidth: 320,
+    alignItems: 'center',
+  },
+  iconWrapper: {
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 16,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#fff',
+    marginBottom: 8,
+    textAlign: 'center',
+  },
+  message: {
+    fontSize: 15,
+    color: '#94a3b8',
+    textAlign: 'center',
+    marginBottom: 20,
+    lineHeight: 22,
+  },
+  button: {
+    paddingVertical: 14,
+    paddingHorizontal: 40,
+    borderRadius: 10,
+    width: '100%',
+  },
+  buttonText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#fff',
+    textAlign: 'center',
+  },
+});
+
 export default function PostItemScreen() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
